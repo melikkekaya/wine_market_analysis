@@ -17,15 +17,16 @@ LIMIT 10
 */
 
 SELECT countries.name AS country, ROUND(AVG(ratings_average),2) AS avg_rating, SUM(ratings_count), users_count,  
-ROUND((wines_count*1.0)/users_count,2) AS wine_per_user, SUM(user_structure_count)
+ROUND((wines_count*1.0)/users_count,2) AS wine_per_user, SUM(user_structure_count), ROUND(SUM(ratings_count)*100.0/users_count,2) AS rating_percent
 FROM wines
 INNER JOIN regions
 ON wines.region_id = regions.id
 INNER JOIN countries
 ON regions.country_code = countries.code
 GROUP BY country_code
-HAVING SUM(user_structure_count) > 50
+-- HAVING SUM(user_structure_count) > 50
 ORDER BY users_count 
+LIMIT 10
 
 /*markdown
 South Africa is one of the countries with less users of Vivino despite it's population (it's 7th),
@@ -40,14 +41,15 @@ So marketting campaign for South Africa may be useful considering its population
 */
 
 SELECT wines.winery_id, wineries.name as winery_name, 
-ROUND(AVG(ratings_average),1) AS winery_rating, COUNT(wines.id) AS wines_count,
+ROUND(AVG(ratings_average),2) AS winery_rating, COUNT(wines.id) AS wines_count,
 SUM(ratings_count) AS winery_total_ratings
 FROM wines 
 INNER JOIN wineries
 ON wines.winery_id = wineries.id
 GROUP BY winery_id 
 HAVING COUNT(wines.id) >1
-ORDER BY ratings_average DESC, SUM(ratings_count) DESC 
+ORDER BY SUM(ratings_count) DESC 
+LIMIT 10
 
 /*markdown
 Vega Sicilia (winery_id:11050) with 4.7 rating average of 3 different wines and 130949 rating counts in total. 
@@ -109,6 +111,14 @@ GROUP BY grape_id
 ORDER BY wines_count DESC
 LIMIT 3
 
+SELECT grapes.name, wines_count, wines_count*100/SUM(wines_count) AS count_perc
+FROM most_used_grapes_per_country
+INNER JOIN grapes
+ON most_used_grapes_per_country.grape_id = grapes.id
+GROUP BY grape_id
+ORDER BY wines_count DESC
+LIMIT 3
+
 /*markdown
 ##  We would to give create a country leaderboard, give us a visual that shows the average wine rating for each country. Do the same for the vintages. 
 */
@@ -152,7 +162,7 @@ SELECT AVG(acidity), AVG(fizziness), AVG(intensity) , AVG(sweetness), AVG(tannin
 FROM wines
 WHERE name LIKE '%Cabernet Sauvignon%'
 
-SELECT id, name, acidity, fizziness, intensity, sweetness, tannin, ratings_average, user_structure_count
+SELECT id, name, acidity, intensity, sweetness, tannin, ratings_average, user_structure_count
 FROM wines
 WHERE name NOT LIKE '%Cabernet Sauvignon%' 
     AND acidity BETWEEN 3 AND 3.6
