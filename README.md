@@ -4,7 +4,7 @@
 
 ## Description
 
-This repository, **wine_market_analysis**, showcases the successful completion of a personal learning project focused on conducting a market analysis in the wine industry. The project spanned a week, with a code submission deadline on 16/06/2023. The final presentation showing insights of the market can be found [here](https://prezi.com/view/3ByTWOX3dML3SqkJCvNN/).
+This repository, **wine_market_analysis**, showcases the successful completion of a personal learning project focused on conducting a market analysis in the wine industry using data scraped from Vivino website. The project spanned a week, with a deadline on 16/06/2023. The final presentation showing insights of the market can be found [here](https://prezi.com/view/3ByTWOX3dML3SqkJCvNN/).
 
 ## Usage
 
