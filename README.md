@@ -1,6 +1,4 @@
-# wine_market_analysis
-
-# Wine Market Analysis Readme
+# Wine Market Analysis
 
 ## Description
 
